@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Create axios instance
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || https://lucky-backend-rlr0.onrender.com/api
   headers: {
     "Content-Type": "application/json",
   },
