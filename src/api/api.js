@@ -1,10 +1,8 @@
-// src/api/api.js
-
 import axios from "axios";
 
 // Create axios instance
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || https://lucky-backend-rlr0.onrender.com/api
+  baseURL: import.meta.env.VITE_API_URL || "https://lucky-backend-rlr0.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -18,5 +16,11 @@ API.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Admin login function
+export const adminLogin = (data) => API.post("/admin/login", data);
+
+// Admin reset function
+export const resetAdmin = () => API.get("/admin/reset-admin");
 
 export default API;
