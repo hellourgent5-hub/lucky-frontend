@@ -1,47 +1,47 @@
 import { useState } from "react";
-import { userLogin } from "../api/api";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { adminLogin } from "../api/api";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("admin@example.com");
+  const [password, setPassword] = useState("123456");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
-      const res = await userLogin({ email, password });
-      localStorage.setItem("userToken", res.data.token);
-      toast.success("Login successful 🎉");
-      navigate("/");
+      const res = await adminLogin({ email, password });
+      localStorage.setItem("adminToken", res.data.token);
+      setMessage("✅ Login Successful!");
     } catch (err) {
-      toast.error("Invalid credentials ❌");
+      setMessage("❌ Login Failed: " + err.response?.data?.message);
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-80">
-        <h2 className="text-xl font-bold mb-4 text-center">User Login</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-xl shadow-md w-96 text-center">
+        <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
         <input
           type="email"
-          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border mb-3 p-2 rounded"
+          className="border p-2 w-full mb-2 rounded"
+          placeholder="Email"
         />
         <input
           type="password"
-          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border mb-3 p-2 rounded"
+          className="border p-2 w-full mb-4 rounded"
+          placeholder="Password"
         />
-        <button className="w-full bg-blue-600 text-white py-2 rounded">
+        <button
+          onClick={handleLogin}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
           Login
         </button>
-      </form>
+        {message && <p className="mt-4 text-sm text-gray-700">{message}</p>}
+      </div>
     </div>
   );
 }
