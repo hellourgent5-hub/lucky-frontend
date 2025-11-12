@@ -1,17 +1,21 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import Product from './pages/Product'
-import Checkout from './pages/Checkout'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Services from "./pages/Services";
+import Orders from "./pages/Orders";
+import Login from "./pages/Login";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function App(){
+export default function App() {
   return (
-    <div className="min-h-screen">
+    <BrowserRouter>
+      <ToastContainer position="top-center" />
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/product/:id" element={<Product/>} />
-        <Route path="/checkout" element={<Checkout/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
-    </div>
-  )
+    </BrowserRouter>
+  );
 }
