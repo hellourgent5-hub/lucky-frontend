@@ -1,6 +1,6 @@
+// src/api/api.js (for USER FRONTEND)
 import axios from "axios";
 
-// Create axios instance
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "https://lucky-backend-rlr0.onrender.com/api",
   headers: {
@@ -8,19 +8,19 @@ const API = axios.create({
   },
 });
 
-// Attach token automatically if available
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("userToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Admin login function
-export const adminLogin = (data) => API.post("/admin/login", data);
-
-// Admin reset function
-export const resetAdmin = () => API.get("/admin/reset-admin");
+// 🧾 USER ROUTES
+export const userRegister = (data) => API.post("/users/register", data);
+export const userLogin = (data) => API.post("/users/login", data);
+export const getServices = () => API.get("/services");
+export const getProducts = () => API.get("/products");
+export const placeOrder = (data) => API.post("/orders", data);
 
 export default API;
