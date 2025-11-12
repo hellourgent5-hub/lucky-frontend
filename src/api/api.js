@@ -1,4 +1,3 @@
-// src/api/api.js (for USER FRONTEND)
 import axios from "axios";
 
 const API = axios.create({
@@ -9,18 +8,14 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("userToken");
+  const token = localStorage.getItem("adminToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// 🧾 USER ROUTES
-export const userRegister = (data) => API.post("/users/register", data);
-export const userLogin = (data) => API.post("/users/login", data);
-export const getServices = () => API.get("/services");
-export const getProducts = () => API.get("/products");
-export const placeOrder = (data) => API.post("/orders", data);
+export const adminLogin = (data) => API.post("/admin/login", data);
+export const resetAdmin = () => API.get("/admin/reset-admin");
 
 export default API;
