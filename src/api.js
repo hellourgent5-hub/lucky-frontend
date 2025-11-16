@@ -1,7 +1,21 @@
-import axios from 'axios';
+// src/api.js
+import axios from "axios";
 
-const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api' });
+const BASE_URL = "https://lucky-backend-rlr0.onrender.com/api";
 
-export const setToken = (token) => { API.defaults.headers.common['Authorization'] = `Bearer ${token}`; };
+export const registerUser = (data) => axios.post(`${BASE_URL}/auth/register`, data);
+export const loginUser = (data) => axios.post(`${BASE_URL}/auth/login`, data);
 
-export default API;
+// Categories
+export const getCategories = () => axios.get(`${BASE_URL}/categories`);
+export const createCategory = (data, token) =>
+  axios.post(`${BASE_URL}/categories/add`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+// Products
+export const getProducts = () => axios.get(`${BASE_URL}/products`);
+export const addProduct = (data, token) =>
+  axios.post(`${BASE_URL}/products/add`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
