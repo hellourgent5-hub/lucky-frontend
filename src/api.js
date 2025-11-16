@@ -1,21 +1,27 @@
-// src/api.js
-import axios from "axios";
+const API = "https://lucky-backend-rlr0.onrender.com/api";
 
-const BASE_URL = "https://lucky-backend-rlr0.onrender.com/api";
-
-export const registerUser = (data) => axios.post(`${BASE_URL}/auth/register`, data);
-export const loginUser = (data) => axios.post(`${BASE_URL}/auth/login`, data);
-
-// Categories
-export const getCategories = () => axios.get(`${BASE_URL}/categories`);
-export const createCategory = (data, token) =>
-  axios.post(`${BASE_URL}/categories/add`, data, {
-    headers: { Authorization: `Bearer ${token}` },
+// GET request
+export async function apiGet(url, token = null) {
+  const res = await fetch(API + url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
   });
+  return res.json();
+}
 
-// Products
-export const getProducts = () => axios.get(`${BASE_URL}/products`);
-export const addProduct = (data, token) =>
-  axios.post(`${BASE_URL}/products/add`, data, {
-    headers: { Authorization: `Bearer ${token}` },
+// POST request
+export async function apiPost(url, body, token = null) {
+  const res = await fetch(API + url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+    body: JSON.stringify(body),
   });
+  return res.json();
+}
+
+export default API;
