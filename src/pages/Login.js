@@ -1,49 +1,46 @@
-import React, { useState } from "react";
-import { apiPost } from "../api";
+"use client";
 
-function Login() {
+import { useState } from "react";
+
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const handleLogin = async () => {
-    const res = await apiPost("/auth/login", { email, password });
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    if (res.token) {
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("role", res.user.role);
-      window.location.href = "/"; 
-    } else {
-      setError(res.message || "Login failed");
-    }
+    const res = await fetch("https://lucky-backend-rlr0.onrender.com/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+    alert(data.message || "Login done");
   };
 
   return (
     <div style={{ padding: 20 }}>
       <h2>Login</h2>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      /><br/><br/>
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        /><br /><br />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      /><br/><br/>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        /><br /><br />
 
-      <button onClick={handleLogin}>Login</button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <p>
-        Don't have an account? <a href="/signup">Signup</a>
-      </p>
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
-
-export default Login;
